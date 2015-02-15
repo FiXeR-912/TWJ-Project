@@ -3,7 +3,7 @@
 {% block body_block %}
 	<h1>Rango says...</h1>
 	About <strong>{{ desc }}</strong><br />
-	<a href="/rango/">Index</a><br />
+	<a href="{% url 'rango:index' %}">Index</a><br />
 {% endblock %}
 
 <!-- <!DOCTYPE html>
