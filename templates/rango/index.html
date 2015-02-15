@@ -12,14 +12,14 @@
 	{% if user.is_authenticated %}
 		<h1>Rango says... hello {{ user.username }}!</h1>
 	{% else %}
-		<h1>Rango says... hello world!</h1>
+		<h1>Rango says... hello user!</h1>
 	{% endif %}
 
 	{% if categories %}
 		<strong>Categories by most likes:</strong>
 		<ul>
 			{% for category in categories %}
-			<li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
+			<li><a href="{% url 'rango:category' category.slug %}">{{ category.name }}</a></li>
 			{% endfor %}
 		</ul>
 	{% endif %}
@@ -27,7 +27,7 @@
 		<strong>Categories by most viewed:</strong>
 		<ul>
 			{% for category in categories_most_viewed %}
-			<li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
+			<li><a href="{% url 'rango:category' category.slug %}">{{ category.name }}</a></li>
 			{% endfor %}
 		</ul>
 	{% else %}
