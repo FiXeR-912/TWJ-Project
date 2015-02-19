@@ -1,4 +1,21 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+<h1>Login to Rango</h1>
+
+	<form id="login_form" method="post" action="{% url 'rango:login' %}">
+		{% csrf_token %}
+		Username: <input type="text" name="username" value="" size="50" />
+		<br />
+		Password: <input type="password" name="password" size="50">
+		<br />
+
+		<input type="submit" value="submit" />
+	</form>
+{% endblock %}
+
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<title>Rango</title>
@@ -6,7 +23,6 @@
 <body>
 	<h1>Login to Rango</h1>
 
-	<!-- <form id="login_form" method="post" action="/rango/login/"> -->
 	<form id="login_form" method="post" action="{% url 'rango:login' %}">
 		{% csrf_token %}
 		Username: <input type="text" name="username" value="" size="50" />
@@ -17,4 +33,4 @@
 		<input type="submit" value="submit" />
 	</form>
 </body>
-</html>
+</html> -->
