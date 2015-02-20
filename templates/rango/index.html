@@ -44,6 +44,11 @@
 
 	<a href="{% url 'rango:about' %}">About</a><br />
  -->
+
+{% if visits %}
+	<p> visits: {{ visits }}</p>
+{% endif %}
+
 {% endblock %}
 
 <!-- <html>

@@ -2,7 +2,9 @@
 
 {% block body_block %}
 	<h1>Rango says...</h1>
-	About <strong>{{ desc }}</strong><br />
+	<!-- About <strong>{{ desc }}</strong><br />
+	 -->
+	<p>Number of visits: {{ visits }}</p>
 	<a href="{% url 'rango:index' %}">Index</a><br />
 {% endblock %}
 

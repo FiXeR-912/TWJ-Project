@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
@@ -12,13 +13,68 @@ def index(request):
 	category_list = Category.objects.order_by('-likes')[:5]
 	category_list_most_viewed = Category.objects.order_by('-views')[:5]
 	context_dict = {'categories': category_list, 'categories_most_viewed': category_list_most_viewed}
+
+	visits = request.session.get('visits')
+	if not visits:
+		visits = 1
+	reset_last_visit_time = False
+
+	last_visit = request.session.get('last_visit')
+	if last_visit:
+		last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+
+		if (datetime.now() - last_visit_time).seconds > 0:
+			visits = visits + 1
+			reset_last_visit_time = True
+	else:
+		reset_last_visit_time = True
+
+	if reset_last_visit_time:
+		request.session['last_visit'] = str(datetime.now())
+		request.session['visits'] = visits
+
+	context_dict['visits'] = visits
+
+	response = render(request, 'rango/index.html', context_dict)
+
+	return response
+	# visits = int(request.COOKIES.get('visits', '0'))
+
+	# reset_last_visit_time = False
+	# #
+	# context_dict['visits'] = visits
+	# #
+	# response = render(request, 'rango/index.html', context_dict)
+	# if 'last_visit' in request.COOKIES:
+	# 	last_visit = request.COOKIES['last_visit']
+	# 	last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+	# 	if (datetime.now() - last_visit_time).days > 0:
+	# 		visits = visits + 1
+	# 		reset_last_visit_time = True
+	# else:
+	# 	reset_last_visit_time = True
+	# 	context_dict['visits'] = visits
+	# 	response = render(request, 'rango/index.html', context_dict)
+
+	# if reset_last_visit_time:
+	# 	response.set_cookie('last_visit', datetime.now())
+	# 	response.set_cookie('visits', visits)
+
+	# return response
 	# context_dict = {'boldmessage': 'I am bold font from the context'}
-	return render(request, 'rango/index.html', context_dict)
+	# return render(request, 'rango/index.html', context_dict)
 	# return HttpResponse("Rango says: Hello world! <br/> <a href='/rango/about'>About</a>")
 
 
 def about(request):
 	context_dict = {'desc': 'This is the about page in bold from the context'}
+
+	if request.session.get('visits'):
+		count = request.session.get('visits')
+	else:
+		count = 0
+	context_dict['visits'] = count
+
 	return render(request, 'rango/about.html', context_dict)
 	# return HttpResponse("Rango says here is the about page <br/> <a href='/rango/'>Index</a>")
 
