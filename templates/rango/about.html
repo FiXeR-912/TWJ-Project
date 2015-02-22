@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+
 {% block body_block %}
-	<h1>Rango says...</h1>
-	<!-- About <strong>{{ desc }}</strong><br />
-	 -->
-	<p>Number of visits: {{ visits }}</p>
-	<a href="{% url 'rango:index' %}">Index</a><br />
+    <div class="page-header">
+        <h1>About</h1>
+    </div>
+    <div>
+        <p>This is <strong>Rango's about page</strong></p>
+        <p>You've visited this site on <strong>{{ visits }} occasion(s).</strong></p>
+        <img  width="500" height="400" src="{% static "images/rango.jpg" %}" alt="Picture of Rango" /> <!-- New line -->
+    </div>
+    <a href="{% url 'rango:index' %}">Return to the Index Page</a><br />
 {% endblock %}
 
 <!-- <!DOCTYPE html>
@@ -14,12 +22,12 @@
 
 <html>
 <head>
-	<title>Rango: About</title>
+    <title>Rango: About</title>
 </head>
 <body>
-	<h1>Rango says...</h1>
-	About <strong>{{ desc }}</strong><br />
-	<a href="/rango/">Index</a><br />
+    <h1>Rango says...</h1>
+    About <strong>{{ desc }}</strong><br />
+    <a href="/rango/">Index</a><br />
 
 </body>
 </html> -->
