@@ -6,6 +6,7 @@ from datetime import datetime
 
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm, UserForm, UserProfileForm
+from rango.bing_search import run_query
 
 
 def index(request):
@@ -142,6 +143,23 @@ def add_page(request, category_name_slug):
     return render(request, 'rango/add_page.html', context_dict)
 
 
+def search(request):
+    result_list = []
+
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            result_list = run_query(query)
+
+    return render(request, 'rango/search.html', {'result_list': result_list})
+
+
+@login_required
+def restricted(request):
+    # return HttpResponse("Since you're logged in, you can see this text!")
+    return render(request, 'rango/restricted.html')
+
+
 # def register(request):
 #   # A boolean value for telling the template whether the registration was successful.
 #   # Set to False initially. Code changes value to True when registration succeeds.
@@ -198,10 +216,6 @@ def add_page(request, category_name_slug):
 #   else:
 #       return render(request, 'rango/login.html', {})
 
-
-@login_required
-def restricted(request):
-    return HttpResponse("Since you're logged in, you can see this text!")
 
 
 # @login_required
