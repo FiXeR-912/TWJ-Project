@@ -160,6 +160,19 @@ def restricted(request):
     return render(request, 'rango/restricted.html')
 
 
+def track_url(request):
+    if request.method  == 'GET':
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+            page = Page.objects.get(id=page_id)
+            page.views = page.views + 1
+            page.save()
+            return HttpResponseRedirect(page.url)
+        # else:
+        #     page = Page.objects.get(id=1)
+        #     return HttpResponseRedirect(page.url)
+
+
 # def register(request):
 #   # A boolean value for telling the template whether the registration was successful.
 #   # Set to False initially. Code changes value to True when registration succeeds.
